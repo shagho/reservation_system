@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>سامانه رزرواسیون پارک علم و فناوری سیستان و بلوچستان</title>
+    <link rel="stylesheet" href="{% static 'serve/css/style.css' %}"/>
+</head>
+<body>
+<!-- Navigation ================================================== -->
+    <nav class="navbar navbar-dark bg-inverse bg-inverse-custom navbar-fixed-top">
+        <div class="container">
+            <div>
+            <a class="navbar-toggler hidden-md-up pull-xs-right" data-toggle="collapse" href="#collapsingNavbar"
+               aria-expanded="false" aria-controls="collapsingNavbar">
+                &#9776;
+            </a>
+            <div id="collapsingNavbar" class="collapse navbar-toggleable-custom" role="tabpanel"
+                 aria-labelledby="collapsingNavbar">
+                <ul class="nav navbar-nav pull-xs-center">
+                    <li class="nav-item nav-item-toggable">
+                        <a class="nav-link" href="/">صفحه نخست<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item nav-item-toggable">
+                        <a class="nav-link" href="#">درباره ما</a>
+                    </li>
+                    <li class="nav-item nav-item-toggable">
+                        <a class="nav-link" href="#">تماس با ما</a>
+                    </li>
+                    <li class="nav-item nav-item-toggable">
+                        <a class="nav-link" href="#">ورود</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+    </nav>
+
+<!-- Hero Section ================================================== -->
+
+    <header class="jumbotron bg-inverse text-xs-center center-vertically" style="background: #663fb5 url({% static 'serve/pics/bg-header.jpg' %});" role="banner">
+        <div class="container">
+            <img src="{% static 'serve/pics/logo.png' %}" alt="پارک علم و فناوری سیستان و بلوچستان" class="img-fluid20 wp wp-1 center-block">
+            <h1 class="display-3">سامانه رزرواسیون پارک علم و فناوری سیستان و بلوچستان</h1>
+        </div>
+    </header>
+
+<!-- index================================================== -->
+
+    <section class="section-pricing bg-faded text-xs-center">
+        <div class="container">
+            <div class="row center-block">
+                <div class="col-lg-12">
+                    {% for item in places %}
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <img class="img-fluid" src="{{ item.image.url }}" alt="Card image cap">
+                            <div class="card-body">
+                              <h2>{{ item.name }}</h2>
+                              <a href="{% url 'serve:place_view' item.id %}" class="btn btn-primary">رزرو کن</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Footer================================================== -->
+
+    <footer class="section-footer bg-inverse" role="contentinfo">
+        <div class="container">
+            <div class="row center-block">
+                <div class="col-lg-12 equal">
+                    <div class="col-lg-1">
+                        <img src="{% static 'serve/pics/logo.png' %}" alt="پارک علم و فناوری سیستان و بلوچستان" class="media-object center-block" style="width:60px">
+                    </div>
+                    <div class="col-lg-11 centroid">
+                            <a href="https://sbstp.ir" target="_blank">پارک علم و فناوری سیستان و بلوچستان</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+<script src="{% static 'serve/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'serve/js/scripts.js' %}"></script>
+</body>
+</html>
