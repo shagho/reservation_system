@@ -6,8 +6,9 @@ from django.db.models.signals import post_save
 from django.db.models import Q
 from django.db import models
 from django.utils import timezone
-from django.dispatch import receiver
 
+from notifications import KavenegarSMS
+from accounts import utils
 from accounts.managers import UserManager
 
 
@@ -61,3 +62,110 @@ class User(AbstractBaseUser, PermissionsMixin):
             'name',
         )
 
+
+class SMSBlackList(models.Model):
+    phone_number = models.CharField(
+        max_length=11,
+        null=True,
+        blank=True,
+        verbose_name='phone number',
+        validators=[
+            RegexValidator(r'09\d{9}'),
+        ]
+    )
+    ip = models.GenericIPAddressField(null=True, blank=True)
+    insert_time = models.DateTimeField(auto_now_add=True)
+    expire_time = models.DateTimeField(null=True, blank=True)
+
+
+class PhoneCode(models.Model):
+    phone_number = models.CharField(
+        max_length=11,
+        null=True,
+        blank=True,
+        verbose_name='phone number',
+        unique=True,
+        validators=[
+            RegexValidator(r'09\d{9}'),
+        ],
+    )
+    tmp_code = models.CharField(max_length=6, default=utils.password_generator)
+    tmp_code_expire = models.DateTimeField(default=timezone.now)
+    tmp_code_sent_time = models.DateTimeField(default=utils.five_minute_ago)
+    tmp_code_sent_counter_in_last_24_hour = models.IntegerField(default=0)
+    def check_password(self, password):
+        """
+            check if password is valid for time been
+            returnin Boolean True for Valid
+        """
+        if self.tmp_code_expire > timezone.now() and \
+                self.tmp_code == password:
+            return True
+        return False
+
+    def __can_request_sms(self):
+        """
+            check if user is allowed to send a request for another sms verification
+            returning Boolean True for allowed to send another sms verification
+        """
+        block = SMSBlackList.objects.filter(
+            Q(phone_number = self.phone_number),
+            Q(expire_time__isnull=True) |
+            Q(expire_time__gt=timezone.now())
+        )
+        if block.exists():
+            return False
+        if self.tmp_code_sent_time > timezone.now() - timezone.timedelta(minutes=1):
+            return None
+        self.save()
+        if self.tmp_code_sent_counter_in_last_24_hour < 15:
+            return True
+        return False
+
+    def limitations_check(self):
+        condition = self.__can_request_sms()
+        if condition is None:
+            return True
+        elif condition:
+            if self.tmp_code_sent_time.date() == timezone.now().date():
+                self.tmp_code_sent_counter_in_last_24_hour += 1
+            else:
+                self.tmp_code_sent_counter_in_last_24_hour = 0
+            self.save()
+            return True
+        return False
+
+    def send_tmp_code(self):
+        """
+            sending kavenegar sms 
+            returning Boolean True for sended
+        """
+        tmp = self.__can_request_sms()
+        if tmp is None:
+            return True
+        elif tmp:
+            self.tmp_code = utils.password_generator()
+            self.tmp_code_expire = utils.five_minute_later()
+            sms = KavenegarSMS()
+            sms.register(
+                receptor=self.phone_number,
+                code=self.tmp_code,
+            )
+            sms.send()
+            self.tmp_code_sent_time = timezone.now()
+            self.save()
+            return True
+        return False
+
+    def send_code(self):
+        self.tmp_code = utils.password_generator()
+        self.tmp_code_expire = utils.five_minute_later()
+        sms = KavenegarSMS()
+        sms.register(
+            receptor=self.phone_number,
+            code=self.tmp_code,
+        )
+        sms.send()
+        self.tmp_code_sent_time = timezone.now()
+        self.save()
+        return True
