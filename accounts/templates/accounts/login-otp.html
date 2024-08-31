@@ -1,0 +1,53 @@
+{%load static%}
+<!doctype html>
+<html lang="fa">
+  <head>
+  	<title>سامانه رزرواسیون پارک علم و فناوری سیستان و بلوچستان | ورود</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="{% static 'accounts/css/google-font.css' %}">
+
+	<link rel="stylesheet" href="{% static 'accounts/css/font-awesome.min.css' %}">
+	
+	<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+
+	</head>
+	<body class="img js-fullheight" style="background-image: url('{% static "accounts/pics/bg.jpg" %}');background-repeat: no-repeat;background-attachment: fixed;background-size: cover;">
+	    <section class="ftco-section">
+	    	<div class="container">
+	    		<div class="row justify-content-center">
+	    			<div class="col-md-6 col-lg-4">
+	    				<div class="login-wrap p-0">
+                            <div class="row align-items-center">
+                                <div class="col-3">
+                                  <a href="/login/">
+                                    <img src="{% static 'accounts/pics/logo.png' %}" alt="مدیریت بازدید" class="img-fluid">
+                                  </a>
+                                </div>
+                                <div class="col-8 text-center">
+                                  <h1 class="heading-section" style="font-size:1.5em">سامانه رزرواسیون</h1>
+                                </div>
+                            </div>
+	    	      	        <h2 class="heading-section mb-4 text-center" style="font-size:1.25em">فرم زیر را تکمیل کنید و ورود بزنید</h2>
+	    	      	        <form action="." method="post" class="signin-form">
+	    	      	        	<div class="form-group">
+	    	      	        		<input type="text" class="form-control" name="otp" placeholder="کد ارسال شده" required>
+	    	      	        	</div>
+	                            <div class="form-group">
+	                            	<button type="submit" class="form-control btn btn-primary submit px-3">ورود</button>
+	                            </div>
+	                        </form>
+	    	            </div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </section>
+
+	    <script src="{% static 'accounts/js/jquery.min.js' %}"></script>
+        <script src="{% static 'accounts/js/popper.js' %}"></script>
+        <script src="{% static 'accounts/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'accounts/js/main.js' %}"></script>
+
+	</body>
+</html>
