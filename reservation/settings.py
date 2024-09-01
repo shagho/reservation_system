@@ -125,7 +125,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-KAVENEGAR_API_KEY = None
+KAVENEGAR_API_KEY = '5078762F3751794F51674B2B65693464376E3838495767314458346A4A6D4A7166587533335537323334673D'
+CELERY_BROKER_URL = 'redis://localhost:6379/2'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
