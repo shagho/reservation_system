@@ -1,0 +1,64 @@
+{% extends "serve/dashboard.html" %}
+{% load static %}
+{% block title %}
+سامانه رزواسیون پارک علم و فناوری سیستان و بلوچستان | پیشخان
+{% endblock %}
+{% block content%}
+<div class="container-fluid">
+    <h2 class="mb-5 text-dark">پیشخان</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6 mx-auto">
+            <form role="form" action="{% url 'serve:profile' %}" method="POST">
+            {% csrf_token %}
+                <div class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">پروفایل</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام و نام خانوادگی :</label>
+                            {% for error in form.name.errors %}
+                                <p class="col-sm-8 text-danger">
+                                {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control rtl" name="name" {% if form.name.value %} value='{{ form.name.value }}' {% endif %}>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <label>ایمیل</label>
+                        {% for error in form.email.errors %}
+                        <p class="col-sm-8 text-danger">
+                        {{ error }}
+                        </p>
+                        {% endfor %}
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control ltr" name="email" {% if form.email.value %} value='{{ form.email.value }}' {% endif %} data-inputmask='"mask": "999999999"' data-mask>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">ثبت</button>
+                </div>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'serve/js/jquery.min.js' %}"></script>
+<script src="{% static 'serve/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'serve/js/popper.js' %}"></script>
+<script src="{% static 'serve/js/main.js' %}"></script>
+{% endblock %}

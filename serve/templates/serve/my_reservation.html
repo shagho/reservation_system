@@ -1,0 +1,75 @@
+{% extends "serve/dashboard.html" %}
+{% load static %}
+{% load jformat %}
+{% block title %}
+سامانه رزواسیون پارک علم و فناوری سیستان و بلوچستان | رزروهای من
+{% endblock %}
+{% block content%}
+<div class="container-fluid">
+    <h2 class="mb-5 text-dark">رزروهای من</h2>
+    <div class="row justify-content-center">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">تاریخ</th>
+                    <th scope="col">مکان</th>
+                    <th scope="col">وضعیت</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for reserve in reservations %}
+                    <tr id="reserve-row-{{ reserve.id }}">
+                      <td>{{ reserve.schedule.time_in|jformat:"%H:%M" }}-{{ reserve.schedule.time_out|jformat:"%H:%M" }} {{ reserve.schedule.time_in|jformat:"%Y-%m-%d" }} </td>
+                      <td>{{ reserve.schedule.place.name }}</td>
+                      <td id="reserve-status-{{ reserve.id }}">{{ reserve.get_status_display }}</td>
+                      <td>
+                        <div class='col-12 text-center'>
+                          <button hx-delete="{% url 'serve:my_reservation_delete' id=reserve.id %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-target="#reserve-status-{{ reserve.id }}" hx-swap="innerHTML"><i class="fa fa-trash"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class='col-5 justify-content-center'>
+          <ul class="pagination pagination-lg justify-content-center">
+            {% if reservations.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ reservations.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+            <li class="page-item page-link disabled">&laquo;</li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="?page={{ reservations.number }}">{{ reservations.number }}</a></li>
+            {% if reservations.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ reservations.next_page_number }}">&raquo;</a></li>
+            {% else %}
+            <li class="page-item page-link disabled">&raquo;</li>
+            {% endif %}
+          </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'serve/js/jquery.min.js' %}"></script>
+<script src="{% static 'serve/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'serve/js/popper.js' %}"></script>
+<script src="{% static 'serve/js/main.js' %}"></script>
+<script src="{% static 'serve/js/htmx.js' %}"></script>
+<script>
+  // Add event listener for the 'show-toast' custom event
+  document.addEventListener('show-toast', event => {
+      const { level, message} = event.detail;
+      toastr.options = { "closeButton": true, "debug": false, "newestOnTop": true,
+            "progressBar": true, "positionClass": "toast-top-right", "preventDuplicates": true,
+            "onclick": null, "showDuration": "300", "hideDuration": "1000", "timeOut": "5000",
+            "extendedTimeOut": "1000", "showEasing": "swing", "hideEasing": "linear",
+            "showMethod": "fadeIn", "hideMethod": "fadeOut" };
+      {% autoescape off %}
+      toastr[level](message);
+      {% endautoescape %}
+  });
+</script>
+{% endblock %}
