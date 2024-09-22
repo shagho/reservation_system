@@ -18,6 +18,9 @@ class Schedule(models.Model):
     time_out = jmodels.jDateTimeField()
     deleted = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return self.place.name + ' ' + self.time_in + ' ' + self.time_out
+
 
 class ReservationRequest(models.Model):
     STATUS_TYPE = [
