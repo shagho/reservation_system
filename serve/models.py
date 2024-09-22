@@ -8,6 +8,9 @@ class Place(models.Model):
     image = models.ImageField()
     description = models.TextField()
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Schedule(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
