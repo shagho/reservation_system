@@ -19,7 +19,7 @@ class Schedule(models.Model):
     deleted = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.place.name + ' ' + self.time_in + ' ' + self.time_out
+        return self.place.name + ' ' + str(self.time_in) + ' ' + str(self.time_out)
 
 
 class ReservationRequest(models.Model):
