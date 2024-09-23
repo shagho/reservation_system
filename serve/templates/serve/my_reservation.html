@@ -21,8 +21,8 @@
                 <tbody>
                   {% for reserve in reservations %}
                     <tr id="reserve-row-{{ reserve.id }}">
-                      <td>{{ reserve.schedule.time_in|jformat:"%H:%M" }}-{{ reserve.schedule.time_out|jformat:"%H:%M" }} {{ reserve.schedule.time_in|jformat:"%Y-%m-%d" }} </td>
-                      <td>{{ reserve.schedule.place.name }}</td>
+                      <td>{{ reserve.time_in|jformat:"%H:%M" }}-{{ reserve.time_out|jformat:"%H:%M" }} {{ reserve.request_date|jformat:"%Y-%m-%d" }} </td>
+                      <td>{{ reserve.place.name }}</td>
                       <td id="reserve-status-{{ reserve.id }}">{{ reserve.get_status_display }}</td>
                       <td>
                         <div class='col-12 text-center'>

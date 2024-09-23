@@ -10,16 +10,10 @@ class Place(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-
-class Schedule(models.Model):
-    place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    time_in = jmodels.jDateTimeField()
-    time_out = jmodels.jDateTimeField()
-    deleted = models.BooleanField(default=False)
-
-    def __str__(self) -> str:
-        return self.place.name + ' ' + str(self.time_in.date()) + ':' + str(self.time_in.time()) + ',' + str(self.time_out.date()) + ':' + str(self.time_out.time())
+    
+    class Meta:
+        verbose_name = 'سالن'
+        verbose_name_plural = 'سالن ها'
 
 
 class ReservationRequest(models.Model):
@@ -30,7 +24,14 @@ class ReservationRequest(models.Model):
         ('cancel', 'لغو شده')
     ]
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
-    schedule = models.ForeignKey('serve.Schedule', on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=16, choices=STATUS_TYPE)
     request_time = jmodels.jDateTimeField(auto_now_add=True)
+    request_date = jmodels.jDateField(verbose_name = 'تاریخ درخواستی برای رزرو')
+    time_in = models.TimeField(verbose_name='ساعت شروع')
+    time_out = models.TimeField(verbose_name='ساعت پایان')
+    place = models.ForeignKey('serve.Place', on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'درخواست رزرو'
+        verbose_name_plural = 'درخواست های رزرو'

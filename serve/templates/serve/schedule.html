@@ -3,6 +3,9 @@
 {% block title %}
 سامانه رزواسیون پارک علم و فناوری سیستان و بلوچستان | برنامه های رزو
 {% endblock %}
+{% block extra_css %}
+<link href="{% static 'serve/css/jalalidatepicker.min.css' %}" rel="stylesheet">
+{% endblock %}
 {% block content%}
 <div class="container-fluid">
     <h2 class="mb-5 text-dark">{{ place.name }}</h2>
@@ -15,22 +18,66 @@
     <!-- Reservation Section -->
     <div class="row justify-content-center">
     <!-- Date Reservation -->
-        <div class="col-md-4">
-            <h5>تاریخ</h5>
-            <ul class="border rounded p-3 list-group" id="reservation-date">
-                {% for key, value in schedules.date.items %}
-                    <li class="btn list-group-item" onclick="activateDate(this);updateHourReservation('{{ key }}')">
-                        <h6 class="my-2">{{ key }}</h6>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <!-- Hour Reservation -->
-        <div class="col-md-4">
-            <h5>ساعت</h5>
-            <ul class="border rounded p-3 list-group" id='hour-reservation'>
-            </ul>
+        <div class="col-md-6 mx-auto">
+            <form role="form" action="{% url 'serve:reservaion_request' id=place.id %}" method="POST">
+            {% csrf_token %}
+                <div class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">لطفا تاریخ و ساعت مورد نظر برای رزرو را وارد نمایید.</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>تاریخ درخواست:</label>
+                            {% for error in form.name.errors %}
+                                <p class="col-sm-8 text-danger">
+                                {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input type="text" class="form-control rtl" data-jdp name="request_date" {% if form.request_date.value %} value='{{ form.name.value }}' {% endif %} data-jdp-only-date>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>زمان شروع:</label>
+                            {% for error in form.email.errors %}
+                            <p class="col-sm-8 text-danger">
+                            {{ error }}
+                            </p>
+                            {% endfor %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                                </div>
+                                <input type="text" class="form-control ltr" data-jdp name="time_in" {% if form.time_in.value %} value='{{ form.email.value }}' {% endif %} data-jdp-only-time>
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <div class="form-group">
+                            <label>زمان پایان:</label>
+                            {% for error in form.email.errors %}
+                            <p class="col-sm-8 text-danger">
+                            {{ error }}
+                            </p>
+                            {% endfor %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-clock"></i></span>
+                                </div>
+                                <input type="text" class="form-control ltr" data-jdp name="time_out" {% if form.time_out.value %} value='{{ form.email.value }}' {% endif %} data-jdp-only-time>
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <!-- /.form group -->
+                    </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">ثبت</button>
+                </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -40,51 +87,16 @@
 <script src="{% static 'serve/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'serve/js/popper.js' %}"></script>
 <script src="{% static 'serve/js/main.js' %}"></script>
+<script src="{% static 'serve/js/jalalidatepicker.min.js' %}"></script>
 <script>
-    const schedules = {{ schedules|safe }};
-
-    // Function to update the times based on the selected date
-    function updateHourReservation(selectedDate) {
-        const hours = schedules['date'][selectedDate];
-        const hourReservationDiv = document.getElementById('hour-reservation');
-
-        // Clear the previous time slots
-        hourReservationDiv.innerHTML = '';
-
-        // If hours exist for the selected date, display them
-        if (hours) {
-            for (const key in hours) {
-                if (hours.hasOwnProperty(key)) {
-                    const timeSlot = hours[key];
-                    const listItem = document.createElement('li');
-                    listItem.className = 'list-group-item';
-                    listItem.innerHTML = `
-                        <h6 class="my-2">
-                            <a href=${timeSlot['url']}>
-                            ${timeSlot['time_out']} - ${timeSlot['time_in']}
-                            </a>
-                        </h6>`;
-                    
-                    if (timeSlot['accept'] > 0) {
-                        listItem.classList.add('disabled');
-                    }    
-
-                    hourReservationDiv.appendChild(listItem);
-                }
-            }
+    jalaliDatepicker.startWatch(
+        {
+            separatorChars:{
+                date:"-"
+            },
+            minDate: "today",
+            time: true
         }
-    }
-    function activateDate(clickedItem) {
-        // Get all the list items in the date reservation list
-        const dateItems = document.querySelectorAll('#reservation-date .list-group-item');
-
-        // Remove 'active' class from all list items
-        dateItems.forEach(item => {
-            item.classList.remove('active');
-        });
-
-        // Add 'active' class to the clicked item
-        clickedItem.classList.add('active');
-    }
+    );
 </script>
 {% endblock %}

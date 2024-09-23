@@ -14,6 +14,8 @@
     <link href="{% static 'serve/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'serve/css/style_dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'serve/css/toastr.min.css' %}" rel="stylesheet">
+    {% block extra_css %}
+    {% endblock %}
 </head>
 <body dir="rtl">
     <div class="wrapper d-flex align-items-stretch">
