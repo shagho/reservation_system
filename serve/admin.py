@@ -17,7 +17,7 @@ class ReservationRequestAdmin(admin.ModelAdmin):
         ('request_date', JDateFieldListFilter),
         ('request_date', DateRangeFilter),
     )
-    list_display = ('user', 'place_name', 'request_date', 'time_in', 'time_out', 'status')
+    list_display = ('user', 'place', 'request_date', 'time_in', 'time_out', 'status')
 
     formfield_overrides = {
         jmodels.jDateTimeField: 
