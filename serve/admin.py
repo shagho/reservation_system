@@ -47,7 +47,9 @@ class ReservationRequestResource(resources.ModelResource):
         for field in fields:
             # Get verbose name if it exists, otherwise use the field name
             field_name = field.column_name
-            verbose_name = self.Meta.model._meta.get_field(field_name).verbose_name
+            try:
+                verbose_name = self.Meta.model._meta.get_field(field_name).verbose_name
+            except: verbose_name = field_name
             # Replace the field name with its verbose name
             field.column_name = verbose_name.title() if verbose_name else field_name
         return fields
@@ -55,7 +57,7 @@ class ReservationRequestResource(resources.ModelResource):
     def get_export_headers(self, fields=None):
         headers = []
         for field in self.get_export_fields():
-            headers.append(self.Meta.model._meta.get_field(field.column_name).verbose_name)
+            headers.append(field.column_name)
         
         return headers
     
