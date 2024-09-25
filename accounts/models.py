@@ -165,7 +165,7 @@ class PhoneCode(models.Model):
             receptor=self.phone_number,
             code=self.tmp_code,
         )
-        sms.send()
+        print(sms.send())
         self.tmp_code_sent_time = timezone.now()
         self.save()
         return True
