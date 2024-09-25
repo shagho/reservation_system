@@ -20,7 +20,7 @@ class KavenegarSMS:
     def inform(self, receptor=None, status=None, password=None):
         self.params = {
             'receptor': receptor,
-            'template': 'inform-res',
+            'template': 'res-inform',
             'token': status,
             'type': 'sms'
         }

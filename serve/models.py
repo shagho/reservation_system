@@ -20,7 +20,7 @@ class ReservationRequest(models.Model):
     STATUS_TYPE = [
         ('accepted', 'پذیرش'),
         ('pending', 'در حال بررسی'),
-        ('not accept', 'رد شده'),
+        ('not accept', 'رد'),
         ('cancel', 'لغو شده')
     ]
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
