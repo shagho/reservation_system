@@ -24,7 +24,7 @@ class ReservationRequest(models.Model):
         ('cancel', 'لغو شده')
     ]
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
-    status = models.CharField(max_length=16, choices=STATUS_TYPE)
+    status = models.CharField(max_length=16, choices=STATUS_TYPE, verbose_name='وضعیت')
     request_time = jmodels.jDateTimeField(auto_now_add=True)
     request_date = jmodels.jDateField(verbose_name = 'تاریخ درخواستی برای رزرو')
     time_in = models.TimeField(verbose_name='ساعت شروع')
