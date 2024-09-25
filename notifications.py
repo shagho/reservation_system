@@ -17,6 +17,14 @@ class KavenegarSMS:
             'type': 'sms'
         }
     
+    def inform(self, receptor=None, status=None, password=None):
+        self.params = {
+            'receptor': receptor,
+            'template': 'inform-res',
+            'token': status,
+            'type': 'sms'
+        }
+
     def send(self):
         flag = True
         for i, j in self.params.items():

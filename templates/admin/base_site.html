@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block extrahead %}
+    {{ block.super }}
+    <style> 
+        @font-face {
+            font-family: 'IRANSansWeb';
+            src: url({% static 'serve/fonts/IRANSansWeb.ttf' %}) format('truetype');
+        }
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        a,
+        ul,
+        li,
+        button,
+        div,
+        input {
+            font-family: 'IRANSansWeb', sans-serif !important;
+        }
+    </style>
+{% endblock %}

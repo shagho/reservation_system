@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-93ezqh1b2(gay#4&m3n4%i_o!=uh$+#1mba4gy7m^77x$fk2@8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'serve',
     'django_jalali',
     'jalali_date_new',
+    'admin_filter',
 ]
 
 MIDDLEWARE = [
@@ -58,11 +59,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'reservation.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

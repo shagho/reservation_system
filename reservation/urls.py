@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include(('serve.urls', 'serve')))
 ]
 
+admin.site.site_header = "سامانه رزرواسیون"
+admin.site.site_title = "سامانه رزرواسیون"
 
 if settings.DEBUG == True:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
