@@ -23,13 +23,13 @@ class ReservationRequest(models.Model):
         ('not accept', 'رد'),
         ('cancel', 'لغو شده')
     ]
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, verbose_name='کاربر')
     status = models.CharField(max_length=16, choices=STATUS_TYPE, verbose_name='وضعیت')
     request_time = jmodels.jDateTimeField(auto_now_add=True)
     request_date = jmodels.jDateField(verbose_name = 'تاریخ درخواستی برای رزرو')
     time_in = models.TimeField(verbose_name='ساعت شروع')
     time_out = models.TimeField(verbose_name='ساعت پایان')
-    place = models.ForeignKey('serve.Place', on_delete=models.CASCADE)
+    place = models.ForeignKey('serve.Place', on_delete=models.CASCADE, verbose_name='مکان')
     deleted = models.BooleanField(default=False)
 
     class Meta:
