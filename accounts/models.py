@@ -27,6 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     name = models.CharField(max_length=100, verbose_name='نام و نام خانوادگی')
     email = models.EmailField(_("آدرس ایمیل"), blank=True)
+    company_name = models.CharField(max_length=128, null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_superuser = models.BooleanField(default=False, verbose_name='مدیر')
     is_staff = models.BooleanField(
@@ -61,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = (
             'name',
         )
+
+    def __str__(self):
+        return self.company_name or self.name or self.username
 
 
 class SMSBlackList(models.Model):

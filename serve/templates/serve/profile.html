@@ -29,23 +29,37 @@
                                 <input type="text" class="form-control rtl" name="name" {% if form.name.value %} value='{{ form.name.value }}' {% endif %}>
                             </div>
                         </div>
-                    <div class="form-group">
-                        <label>ایمیل</label>
-                        {% for error in form.email.errors %}
-                        <p class="col-sm-8 text-danger">
-                        {{ error }}
-                        </p>
-                        {% endfor %}
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <div class="form-group">
+                            <label>ایمیل</label>
+                            {% for error in form.email.errors %}
+                            <p class="col-sm-8 text-danger">
+                            {{ error }}
+                            </p>
+                            {% endfor %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                </div>
+                                <input type="text" class="form-control ltr" name="email" {% if form.email.value %} value='{{ form.email.value }}' {% endif %}>
                             </div>
-                            <input type="text" class="form-control ltr" name="email" {% if form.email.value %} value='{{ form.email.value }}' {% endif %} data-inputmask='"mask": "999999999"' data-mask>
+                            <!-- /.input group -->
                         </div>
-                        <!-- /.input group -->
+                        <div class="form-group">
+                            <label>نام شرکت(شخص حقوقی)</label>
+                            {% for error in form.company_name.errors %}
+                            <p class="col-sm-8 text-danger">
+                            {{ error }}
+                            </p>
+                            {% endfor %}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                                </div>
+                                <input type="text" class="form-control ltr" name="company_name" {% if form.company_name.value %} value='{{ form.company_name.value }}' {% endif %}>
+                            </div>
+                            <!-- /.input group -->
+                        </div>
                     </div>
-                    <!-- /.form group -->
-                </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">ثبت</button>
